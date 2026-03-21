@@ -779,7 +779,7 @@ function enableToggles() {
 
 document.addEventListener('DOMContentLoaded', function() {
     // Получаем все textarea с классом jc
-    const textareas = document.querySelectorAll('.jc');
+const textareas = document.querySelectorAll('.jc');
     
     textareas.forEach(textarea => {
         textarea.addEventListener('keydown', function(e) {
@@ -791,3 +791,47 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Открытие modal
+document.querySelector('.genbtn')?.addEventListener('click', function() {
+    const modal = document.getElementById('Modal');
+    if (modal) {
+        modal.style.display = 'block';
+    }
+});
+
+// Закрытие модального окна при клике на крестик
+function closeModal() {
+    const modal = document.getElementById('Modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Закрытие модального окна при клике вне его области
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('Modal');
+    if (modal && event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
+// Обработчик для кнопки подтверждения в модальном окне
+const selectDomainBtn = document.getElementById('selectDomain');
+if (selectDomainBtn) {
+    selectDomainBtn.addEventListener('click', async function() {
+    const domainInput = document.getElementById('domain');
+    const domain = domainInput.value.trim();
+    
+    if (domain) {
+        const i1 = await generateI1FromDomain(domain);
+		document.getElementById('i1').value = i1;
+        closeModal();
+        convert();
+		
+    } else {
+        alert('Пожалуйста, введите домен');
+    }
+});
+}
+
